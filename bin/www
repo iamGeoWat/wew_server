@@ -7,13 +7,13 @@
 var app = require('../app');
 var debug = require('debug')('js-server-solution:server');
 var http = require('http');
-var https = require('https');
-var fs = require('fs');
+// var https = require('https');
+// var fs = require('fs');
 
-var options = {
-  key: fs.readFileSync('../cert/1529930575399.key'),
-  cert: fs.readFileSync('1529930575399.pem')
-}
+// var options = {
+//   key: fs.readFileSync('../cert/1529930575399.key'),
+//   cert: fs.readFileSync('../cert/1529930575399.pem')
+// }
 
 /**
  * Get port from environment and store in Express.
@@ -27,14 +27,14 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-var serverS = https.createServer(options, app);
+// var serverS = https.createServer(options, app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
 server.listen(port);
-serverS.listen(443);
+// serverS.listen(443);
 server.on('error', onError);
 server.on('listening', onListening);
 
