@@ -7,12 +7,14 @@ function newWallet(password) {
     password: password,
     seedPhrase: randomSeed,
     //random salt
+    salt: 'lightwalletSalt',
     hdPathString: "m/0'/0'/0'"
   }, function (err, ks) {
     ks_to_return = ks;
     // global_keystore = ks;
-    // console.log('aaaaaaa')
-    console.log(ks);
+    console.log('salt:');
+    console.log(ks_to_return.salt);
+    // ks_to_return.salt = 'lightwalletSalt';
     json.keystore = ks_to_return.serialize();
     newAddresses(password);
     // setWeb3Provider(global_keystore);

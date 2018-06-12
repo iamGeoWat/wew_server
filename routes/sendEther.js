@@ -1,6 +1,8 @@
 const Web3 = require('web3');
 const HookedWeb3Provider = require('hooked-web3-provider');
+// import eth_lightwallet from 'eth-lightwallet';
 const lightwallet = require('eth-lightwallet');
+// var lightwallet = new eth_lightwallet();
 var Tx = require('ethereumjs-tx');
 
 // var global_keystore = require('./gvar');
@@ -16,17 +18,17 @@ var json = {
   err: undefined
 };
 
-function sendEth(fromAddr, toAddr, valueInEth, gasPrice, gas) {
-  var valueInWei = parseFloat(valueInEth)*1.0e18;
-  console.log('valueinwei: ' + valueInWei + ' gasprice: ' + gasPrice + ' gas: ' + gas);
-  web3.eth.sendTransaction({from: fromAddr, to: toAddr, value: valueInWei, gasPrice: gasPrice, gas: gas}, function (err, txhash) {
-    console.log(err);
-    console.log('txhash: ' + txhash);
-    json.txhash = txhash;
-    json.fee = (gas*gasPrice/1.0e18).toString();
-    json.err = err.toString();
-  })
-}
+// function sendEth(fromAddr, toAddr, valueInEth, gasPrice, gas) {
+//   var valueInWei = parseFloat(valueInEth)*1.0e18;
+//   console.log('valueinwei: ' + valueInWei + ' gasprice: ' + gasPrice + ' gas: ' + gas);
+//   web3.eth.sendTransaction({from: fromAddr, to: toAddr, value: valueInWei, gasPrice: gasPrice, gas: gas}, function (err, txhash) {
+//     console.log(err);
+//     console.log('txhash: ' + txhash);
+//     json.txhash = txhash;
+//     json.fee = (gas*gasPrice/1.0e18).toString();
+//     json.err = err.toString();
+//   })
+// }
 
 function setWeb3Provider(keystore) {
   var web3Provider = new HookedWeb3Provider({
@@ -45,27 +47,27 @@ function genAddress(password) {
   })
 }
 
-function genRawTx(toAddr, gas, gasPrice, valueInEth) {
-  rlpTransferTx = lightwallet.txutils.valueTx({
-    to: toAddr,
-    gasLimit: gas.toString().toString('hex'),
-    gasPrice: gasPrice.toString().toString('hex'),
-    value: (parseFloat(valueInEth) * 1.0e18).toString().toString('hex'),
-    nonce: 0
-  });
-  console.log('not signedtx: ' + rlpTransferTx);
-}
-
-function signTx(password, fromAddr) {
-  keystore.keyFromPassword(password, function (err, pwDerivedKey) {
-    signedTx = lightwallet.signing.signTx(keystore, pwDerivedKey, rlpTransferTx, '0x' + fromAddr.toString('hex'));
-    console.log('signedtx: ' + signedTx);
-  })
-}
-
-function sendTx(signedTx) {
-  web3.eth.sendSignedTransaction('0x' + signedTx).on('receipt', console.log);
-}
+// function genRawTx(toAddr, gas, gasPrice, valueInEth) {
+//   rlpTransferTx = lightwallet.txutils.valueTx({
+//     to: toAddr,
+//     gasLimit: gas.toString().toString('hex'),
+//     gasPrice: gasPrice.toString().toString('hex'),
+//     value: (parseFloat(valueInEth) * 1.0e18).toString().toString('hex'),
+//     nonce: 0
+//   });
+//   console.log('not signedtx: ' + rlpTransferTx);
+// }
+//
+// function signTx(password, fromAddr) {
+//   keystore.keyFromPassword(password, function (err, pwDerivedKey) {
+//     signedTx = lightwallet.signing.signTx(keystore, pwDerivedKey, rlpTransferTx, '0x' + fromAddr.toString('hex'));
+//     console.log('signedtx: ' + signedTx);
+//   })
+// }
+//
+// function sendTx(signedTx) {
+//   web3.eth.sendSignedTransaction('0x' + signedTx).on('receipt', console.log);
+// }
 
 var express = require('express');
 var router = express.Router();
@@ -79,7 +81,7 @@ router.post('/', function(req, res, next) {
   var valueInEth = req.body.valueInEth;
   var ifCustom = req.body.ifCustom;
   
-  var mnemonic = req.body.mnemonic;
+  // var mnemonic = req.body.mnemonic;
   var password = req.body.password;
   
   client_keystore = lightwallet.keystore.deserialize(req.body.keystore);
